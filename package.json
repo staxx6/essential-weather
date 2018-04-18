@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/staxx6/essential-weather#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
+    "hbs": "^4.0.1"
   }
 }
