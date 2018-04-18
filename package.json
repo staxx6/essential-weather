@@ -1,0 +1,22 @@
+{
+  "name": "essential-weather",
+  "version": "1.0.0",
+  "description": "Essential weather is a website to show only the important information about the weather in your region.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/staxx6/essential-weather.git"
+  },
+  "author": "Simon Oczadly @staxx6",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/staxx6/essential-weather/issues"
+  },
+  "homepage": "https://github.com/staxx6/essential-weather#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
