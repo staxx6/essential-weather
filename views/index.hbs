@@ -17,19 +17,18 @@
         <div id="wrapper">
             <main>
                 <p>
-                    <form>
-                        <input type="text" name="location" placeholder="Enter your location here">
-
-                        <button>Set location</button>
-                    </form>
+                        <input type="text" id="location-input" placeholder="Enter your location here" autofocus value="Dortmund">
+                        <button type="button" onclick="newLoc()">Set location</button>
                 </p>
 
                 <p>
-                    Your location is:
+                    Your locations weather is:
                 </p>
 
                 <p>
+                    Time: {{this.time}}
                     {{> weather_block this}}
+                    Time daily: {{this.timeDay}}
                 </p>
                 <p>
                     Day:
@@ -45,5 +44,6 @@
 
         <footer>
         </footer>
+        <script src="js/getWeather.js"></script>
     </body>
 </html>

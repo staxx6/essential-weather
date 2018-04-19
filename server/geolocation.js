@@ -10,6 +10,7 @@ const getGeoLocationCoord = async (input, resultNr) => {
         const googleMapsToken = process.env.MAPSTOKEN;
         const googleMapsUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${input}&key=${googleMapsToken}`
         const res = await axios.get(googleMapsUrl);
+        console.log(res.data.results[0].formatted_address);
         return res.data.results[resultNr].geometry.location;
     } catch (err) {
         throw new Error(`Couldn\'t fetch geolocation for ${input}`);

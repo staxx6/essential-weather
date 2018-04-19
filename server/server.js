@@ -30,8 +30,13 @@ app.get('/', async (req, res) => {
         let geoCoords = await geo.getGeoLocationCoord('Dortmund');
         let weatherData = await weather.getWeather(geoCoords.lat, geoCoords.lng);
         let weatherCurr = weatherData.currently;
+        let weatherDaily = weatherData.daily.data;
         res.render('index.hbs', {
-            currentTemp: weatherCurr.temperature,
+            time: new Date(weatherCurr.time*1000),
+            timeDay: new Date(weatherDaily[1].time*1000),
+            currentTemp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
+            currentTempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
+            currentTempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
             currentIcon: weatherCurr.icon,
             currentPrecipProbability: weatherCurr.precipProbability
         });
@@ -41,6 +46,30 @@ app.get('/', async (req, res) => {
     }
 });
 
+app.get('/:input', async (req, res) => {
+    let input = req.params.input;
+    try {
+        let geoCoords = await geo.getGeoLocationCoord(input);
+        let weatherData = await weather.getWeather(geoCoords.lat, geoCoords.lng);
+        let weatherCurr = weatherData.currently;
+        let weatherDaily = weatherData.daily.data;
+        let newWeather = {
+            time: new Date(weatherCurr.time*1000),
+            timeDay: new Date(weatherDaily[1].time*1000),
+            currentTemp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
+            currentTempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
+            currentTempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
+            currentIcon: weatherCurr.icon,
+            currentPrecipProbability: weatherCurr.precipProbability
+        };
+
+        res.status(200).send(newWeather);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+});
+
 app.listen(process.env.PORT, () => {
-    console.log(`Essential server started on port: ${process.env.PORT}\n`);
+    console.log(`Essential weather server started on port: ${process.env.PORT}\n`);
 });
