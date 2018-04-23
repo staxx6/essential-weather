@@ -26,9 +26,9 @@
                 </p>
 
                 <p>
-                    Time: {{this.time}}
-                    {{> weather_block this}}
-                    Time daily: {{this.timeDay}}
+                    Time: {{this.today.time}}
+                    {{> weather_block this.today}}
+                    Time daily: {{this.today.timeDay}}
                 </p>
                 <p>
                     Day:

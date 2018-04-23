@@ -32,13 +32,16 @@ app.get('/', async (req, res) => {
         let weatherCurr = weatherData.currently;
         let weatherDaily = weatherData.daily.data;
         res.render('index.hbs', {
-            time: new Date(weatherCurr.time*1000),
-            timeDay: new Date(weatherDaily[1].time*1000),
-            currentTemp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
-            currentTempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
-            currentTempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
-            currentIcon: weatherCurr.icon,
-            currentPrecipProbability: weatherCurr.precipProbability
+            today: {
+                name: 'weather-today',
+                time: new Date(weatherCurr.time*1000),
+                timeDay: new Date(weatherDaily[1].time*1000),
+                temp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
+                tempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
+                tempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
+                icon: weatherCurr.icon,
+                precipProbability: `${weatherCurr.precipProbability}%`
+            }
         });
     } catch (err) {
         console.log(err);
@@ -54,15 +57,17 @@ app.get('/:input', async (req, res) => {
         let weatherCurr = weatherData.currently;
         let weatherDaily = weatherData.daily.data;
         let newWeather = {
-            time: new Date(weatherCurr.time*1000),
-            timeDay: new Date(weatherDaily[1].time*1000),
-            currentTemp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
-            currentTempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
-            currentTempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
-            currentIcon: weatherCurr.icon,
-            currentPrecipProbability: weatherCurr.precipProbability
+            today: {
+                name: 'weather-today',
+                time: new Date(weatherCurr.time*1000),
+                timeDay: new Date(weatherDaily[1].time*1000),
+                temp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
+                tempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
+                tempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
+                icon: weatherCurr.icon,
+                precipProbability: `${weatherCurr.precipProbability}%`
+            }
         };
-
         res.status(200).send(newWeather);
     } catch (err) {
         console.log(err);
