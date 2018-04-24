@@ -6,7 +6,6 @@ const express = require('express');
 const hbs = require('hbs');
 const axios = require('axios');
 
-const geo = require('./geolocation');
 const weather = require('./weather');
 
 const publicPath = path.join(__dirname, '../public');
@@ -52,22 +51,7 @@ app.get('/', async (req, res) => {
 app.get('/:input', async (req, res) => {
     let input = req.params.input;
     try {
-        let geoCoords = await geo.getGeoLocationCoord(input);
-        let weatherData = await weather.getWeather(geoCoords.lat, geoCoords.lng);
-        let weatherCurr = weatherData.currently;
-        let weatherDaily = weatherData.daily.data;
-        let newWeather = {
-            today: {
-                name: 'weather-today',
-                time: new Date(weatherCurr.time*1000),
-                timeDay: new Date(weatherDaily[1].time*1000),
-                temp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
-                tempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
-                tempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
-                icon: weatherCurr.icon,
-                precipProbability: `${weatherCurr.precipProbability}%`
-            }
-        };
+        let weatherData = await weather.getWeatherData(input);
         res.status(200).send(newWeather);
     } catch (err) {
         console.log(err);
