@@ -26,25 +26,11 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
     let address = 'Dortmund';
     try {
-        let geoCoords = await geo.getGeoLocationCoord('Dortmund');
-        let weatherData = await weather.getWeather(geoCoords.lat, geoCoords.lng);
-        let weatherCurr = weatherData.currently;
-        let weatherDaily = weatherData.daily.data;
-        res.render('index.hbs', {
-            today: {
-                name: 'weather-today',
-                time: new Date(weatherCurr.time*1000),
-                timeDay: new Date(weatherDaily[1].time*1000),
-                temp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
-                tempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
-                tempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
-                icon: weatherCurr.icon,
-                precipProbability: `${weatherCurr.precipProbability}%`
-            }
-        });
+        let weatherData = await weather.getWeatherData(address);
+        res.render('index.hbs', weatherData);
     } catch (err) {
         console.log(err);
-        res.render('index.hbs');
+        res.status(400).send(err);
     }
 });
 
@@ -52,7 +38,7 @@ app.get('/:input', async (req, res) => {
     let input = req.params.input;
     try {
         let weatherData = await weather.getWeatherData(input);
-        res.status(200).send(newWeather);
+        res.status(200).send(weatherData);
     } catch (err) {
         console.log(err);
         res.status(400).send(err);

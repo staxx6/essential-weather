@@ -17,6 +17,37 @@ const getWeather = async (lat, lng) => {
     }
 }
 
+// Get daily weather for next 7 days (0 is current day!)
+const createDailyDataArray = (weatherDaily) => {
+    dataDaily = [];
+    for (let i = 1; i < 8;  i++) {
+        dataDaily[i] = {
+            name: `weather-daily-${i}`,
+            time: new Date(weatherDaily[i].time*1000),
+            tempMax: `${Math.floor(celsius(weatherDaily[i].temperatureHigh))}°C`,
+            tempMin: `${Math.floor(celsius(weatherDaily[i].temperatureLow))}°C`,
+            icon: weatherDaily[i].icon,
+            precipProbability: `${Math.floor(weatherDaily[i].precipProbability * 100)}%`
+        };
+    }
+    return dataDaily;
+}
+
+// Get hourly weather for 12hrs in the future (0 is current hour!)
+const createHourlyDataArray = (weatherHourly) => {
+    dataHourly = [];
+    for (let i = 1; i < 13;  i++) {
+        dataHourly[i] = {
+            name: `weather-hour-${i}`,
+            time: new Date(weatherHourly[i].time*1000),
+            temp: `${Math.floor(celsius(weatherHourly[i].temperature))}°C`,
+            icon: weatherHourly[i].icon,
+            precipProbability: `${Math.floor(weatherHourly[i].precipProbability * 100)}%`
+        };
+    }
+    return dataHourly;
+}
+
 const getWeatherData = async (input) => {
     try {
         let geoCoords = await geo.getGeoLocationCoord(input);
@@ -24,65 +55,25 @@ const getWeatherData = async (input) => {
         let weatherCurr = weatherData.currently;
         let weatherHourly = weatherData.hourly.data;
         let weatherDaily = weatherData.daily.data;
-        let newWeather = {
+        createHourlyDataArray(weatherHourly);
+        return newWeather = {
+            status: 'ok',
             currently: {
-                name: 'weather-currently',
                 time: new Date(weatherCurr.time*1000),
                 timeDay: new Date(weatherDaily[1].time*1000),
-                temp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
-                tempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
-                tempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
+                temp: `${Math.floor(celsius(weatherCurr.temperature))}°C`,
+                tempMax: `${Math.floor(celsius(weatherDaily[0].temperatureHigh))}°C`,
+                tempMin: `${Math.floor(celsius(weatherDaily[0].temperatureLow))}°C`,
                 icon: weatherCurr.icon,
-                precipProbability: `${weatherDaily[0].precipProbability * 100}%`
+                precipProbability: `${Math.floor(weatherDaily[0].precipProbability * 100)}%`
             },
-            dailyHours: [
-                {
-                    name: 'weather-hour',
-                    time: new Date(weatherHourly[0].time)
-
-                }
-            ],
-
+            hourly: createHourlyDataArray(weatherHourly),
+            daily: createDailyDataArray(weatherDaily)
         };
     } catch (err) {
         throw new Error(`Couldn\'t get weather information for ${input}: ${err}`);
     };
-
-    // if (!time) {
-    //     return getWeather(lat, lng);
-    // } else {
-    //     if (time === 'current') {
-    //
-    //     } else if (time === 'day') {
-    //
-    //     } else if (time === 'day+1') {
-    //
-    //     }
-    // }
-}
-
-// try {
-//     let geoCoords = await geo.getGeoLocationCoord(input);
-//     let weatherData = await weather.getWeather(geoCoords.lat, geoCoords.lng);
-//     let weatherCurr = weatherData.currently;
-//     let weatherDaily = weatherData.daily.data;
-//     let newWeather = {
-//         today: {
-//             name: 'weather-today',
-//             time: new Date(weatherCurr.time*1000),
-//             timeDay: new Date(weatherDaily[1].time*1000),
-//             temp: `${Math.floor(weather.celsius(weatherCurr.temperature))}°C`,
-//             tempMax: `${Math.floor(weather.celsius(weatherDaily[0].temperatureHigh))}°C`,
-//             tempMin: `${Math.floor(weather.celsius(weatherDaily[0].temperatureLow))}°C`,
-//             icon: weatherCurr.icon,
-//             precipProbability: `${weatherDaily[0].precipProbability * 100}%`
-//         }
-//     };
-//     res.status(200).send(newWeather);
-// } catch (err) {
-//     console.log(err);
-//     res.status(400).send(err);
-// }
+};
 
 // °F = °C × 1,8 + 32
 const fahrenheit = (celsius) => celsius * 1.8 + 32;
@@ -91,7 +82,7 @@ const fahrenheit = (celsius) => celsius * 1.8 + 32;
 const celsius = (fahrenheit) => (fahrenheit - 32) / 1.8;
 
 module.exports = {
-    getWeather,
+    getWeatherData,
     fahrenheit,
     celsius
 }

@@ -1,9 +1,13 @@
 <div class="weather-block">
     <ul>
-        <li>Temp: <span id="{{this.name}}-temp-data">{{this.temp}}</span></li>
-        <li>Max: <span id="{{this.name}}-tempMax-data">{{this.tempMax}}</span></li>
-        <li>Min: <span id="{{this.name}}-tempMin-data">{{this.tempMin}}</span></li>
-        <li>Icon: <span id="{{this.name}}-icon-data">{{this.icon}}</span></li>
-        <li>Rain Chance: <span id="{{this.name}}-precipProbability-data">{{this.precipProbability}}</span></li>
+        {{#if this.temp}}
+        <li>Temp: <span id="weather-{{name}}-temp-data">{{this.temp}}</span></li>
+        {{/if}}
+        {{#if this.tempMax}}
+        <li>Max: <span id="weather-{{name}}-tempMax-data">{{this.tempMax}}</span></li>
+        <li>Min: <span id="weather-{{name}}-tempMin-data">{{this.tempMin}}</span></li>
+        {{/if}}
+        <li>Icon: <span id="weather-{{name}}-icon-data">{{this.icon}}</span></li>
+        <li>Rain Chance: <span id="weather-{{name}}-precipProbability-data">{{this.precipProbability}}</span></li>
     </ul>
 </div>

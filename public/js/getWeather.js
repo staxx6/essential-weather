@@ -1,34 +1,56 @@
-let renderNewLoc = (dataString) => {
-    let data = JSON.parse(dataString);
-    document.getElementById("weather-today-temp-data").innerHTML = data.today.temp;
-    document.getElementById("weather-today-tempMax-data").innerHTML = data.today.tempMax;
-    document.getElementById("weather-today-tempMin-data").innerHTML = data.today.tempMin;
-    document.getElementById("weather-today-icon-data").innerHTML = data.today.icon;
-    document.getElementById("weather-today-precipProbability-data").innerHTML = data.today.precipProbability;
-    // for (let i = 0; i < eles.length; i++) {
-    //     eles
-    // }
-    // eles.forEach((value) => {
-    //     switch(value) {
-    //         case
-    //     }
-    // });
+let renderNewWeather = (data) => {
+    document.getElementById("weather-currently-temp-data").innerHTML = data.currently.temp;
+    document.getElementById("weather-currently-tempMax-data").innerHTML = data.currently.tempMax;
+    document.getElementById("weather-currently-tempMin-data").innerHTML = data.currently.tempMin;
+    document.getElementById("weather-currently-icon-data").innerHTML = data.currently.icon;
+    document.getElementById("weather-currently-precipProbability-data").innerHTML = data.currently.precipProbability;
 };
 
-// var x = document.getElementsByClassName("example");
-// var i;
-// for (i = 0; i < x.length; i++) {
-//     x[i].style.backgroundColor = "red";
-// }
+let testWeather = () => {
+    renderNewWeather({
+        status: 'ok',
+        currently: {
+            time: 5000,
+            timeDay: new Date(500000),
+            temp: `500°C`,
+            tempMax: `500°C`,
+            tempMin: `500°C`,
+            icon: 'testIco',
+            precipProbability: `120%`
+        },
+        hours: [
+            {
+                name: 'weather-hour',
+                time: new Date(5000000)
 
+            }
+        ],
+
+    });
+}
+
+let showWorkingAnimation = () => {
+
+};
+
+// TODO: set id for fetchAnimation or the actual animation
 let newLoc = () => {
+    document.getElementById("fetchAnimation").style.display = 'inline-block';
     input = document.getElementById("location-input").value;
 
     let request = new XMLHttpRequest();
     request.onreadystatechange = (data) => {
+        console.log(XMLHttpRequest)
         if (request.readyState === XMLHttpRequest.DONE) {
-            console.log(request.responseText);
-            renderNewLoc(request.responseText);
+            let data = JSON.parse(request.responseText);
+            if (data.status !== 'ok') {
+                document.getElementById("fetchAnimation").style.background = 'red';
+                return;
+            }
+            console.log(data);
+            renderNewWeather(data);
+            document.getElementById("fetchAnimation").style.display = 'none';
+            document.getElementById("fetchAnimation").style.background = 'red';
         }
     }
 
