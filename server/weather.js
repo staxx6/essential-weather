@@ -48,27 +48,27 @@ const createHourlyDataArray = (weatherHourly) => {
     return dataHourly;
 }
 
+// Get current weather
+const createCurrentData = (weatherData) => {
+    return {
+        time: new Date(),
+        temp: `${Math.floor(celsius(weatherData.currently.temperature))}°C`,
+        tempMax: `${Math.floor(celsius(weatherData.daily.data[0].temperatureHigh))}°C`,
+        tempMin: `${Math.floor(celsius(weatherData.daily.data[0].temperatureLow))}°C`,
+        icon: weatherData.currently.icon,
+        precipProbability: `${Math.floor(weatherData.hourly.data[0].precipProbability * 100)}%`
+    }
+}
+
 const getWeatherData = async (input) => {
     try {
         let geoCoords = await geo.getGeoLocationCoord(input);
         let weatherData = await getWeather(geoCoords.lat, geoCoords.lng);
-        let weatherCurr = weatherData.currently;
-        let weatherHourly = weatherData.hourly.data;
-        let weatherDaily = weatherData.daily.data;
-        createHourlyDataArray(weatherHourly);
         return newWeather = {
             status: 'ok',
-            currently: {
-                time: new Date(weatherCurr.time*1000),
-                timeDay: new Date(weatherDaily[1].time*1000),
-                temp: `${Math.floor(celsius(weatherCurr.temperature))}°C`,
-                tempMax: `${Math.floor(celsius(weatherDaily[0].temperatureHigh))}°C`,
-                tempMin: `${Math.floor(celsius(weatherDaily[0].temperatureLow))}°C`,
-                icon: weatherCurr.icon,
-                precipProbability: `${Math.floor(weatherDaily[0].precipProbability * 100)}%`
-            },
-            hourly: createHourlyDataArray(weatherHourly),
-            daily: createDailyDataArray(weatherDaily)
+            currently: createCurrentData(weatherData),
+            hourly: createHourlyDataArray(weatherData.hourly.data),
+            daily: createDailyDataArray(weatherData.daily.data)
         };
     } catch (err) {
         throw new Error(`Couldn\'t get weather information for ${input}: ${err}`);

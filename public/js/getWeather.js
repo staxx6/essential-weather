@@ -36,7 +36,7 @@ let showWorkingAnimation = () => {
 // TODO: set id for fetchAnimation or the actual animation
 let newLoc = () => {
     document.getElementById("fetchAnimation").style.display = 'inline-block';
-    input = document.getElementById("location-input").value;
+    input = document.getElementById("location-input").value.replace(" ", "%20");
 
     let request = new XMLHttpRequest();
     request.onreadystatechange = (data) => {

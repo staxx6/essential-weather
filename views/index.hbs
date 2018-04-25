@@ -38,12 +38,10 @@
                     {{/each}}
                 </p>
                 <p>
-                    Day:
-                    {{!-- {{> weather_time ENTER_TIME_HERE}} --}}
-                </p>
-                <p>
                     Week:
-                    {{!-- {{> weather_day}} --}}
+                    {{#each this.daily}}
+                    {{> weather_block this name="daily"}}
+                    {{/each}}
                 </p>
 
             </main>
