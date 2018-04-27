@@ -3,6 +3,103 @@ require('./config/config');
 const axios = require('axios');
 const geo = require('./geolocation');
 
+// Test weather if not online
+const OFFLINE = true;
+
+// Some stupid manual test data
+const testWeatherData = {
+    status: 'ok',
+    currently: {
+        time: 5000,
+        timeDay: new Date(500000),
+        temp: `500°C`,
+        tempMax: `500°C`,
+        tempMin: `500°C`,
+        icon: 'testIco',
+        precipProbability: `120%`
+    },
+    hourly: [{
+        name: `weather-hour-1`,
+        time: new Date(),
+        temp: '100°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-2`,
+        time: new Date(),
+        temp: '100°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-3`,
+        time: new Date(),
+        temp: '103°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-4`,
+        time: new Date(),
+        temp: '104°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-5`,
+        time: new Date(),
+        temp: '105°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-6`,
+        time: new Date(),
+        temp: '106°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    }],
+    daily: [{
+        name: `weather-daily-1`,
+        time: new Date(),
+        tempMax: `201°C`,
+        tempMin: `200°C`,
+        icon: 'fuckingcold',
+        precipProbability: `130%`
+    },{
+        name: `weather-daily-2`,
+        time: new Date(),
+        tempMax: `202°C`,
+        tempMin: `200°C`,
+        icon: 'fuckingcold',
+        precipProbability: `130%`
+    },{
+        name: `weather-daily-3`,
+        time: new Date(),
+        tempMax: `203°C`,
+        tempMin: `200°C`,
+        icon: 'fuckingcold',
+        precipProbability: `130%`
+    },{
+        name: `weather-daily-4`,
+        time: new Date(),
+        tempMax: `204°C`,
+        tempMin: `200°C`,
+        icon: 'fuckingcold',
+        precipProbability: `130%`
+    },{
+        name: `weather-daily-5`,
+        time: new Date(),
+        tempMax: `205°C`,
+        tempMin: `200°C`,
+        icon: 'fuckingcold',
+        precipProbability: `130%`
+    },{
+        name: `weather-daily-6`,
+        time: new Date(),
+        tempMax: `206°C`,
+        tempMin: `200°C`,
+        icon: 'fuckingcold',
+        precipProbability: `130%`
+    },]
+};
+
 const getWeather = async (lat, lng) => {
     if (!lat || !lng) return null;
 
@@ -16,6 +113,9 @@ const getWeather = async (lat, lng) => {
         throw new Error(`Couldn\'t fetch weather information for ${lat}, ${lng}: ${err}`);
     }
 }
+
+// TODO: functions for solo data ex. tempCurrent() = { ... }
+// TODO: functions implement F° anc C° change --> client can do that
 
 // Get daily weather for next 7 days (0 is current day!)
 const createDailyDataArray = (weatherDaily) => {
@@ -61,6 +161,9 @@ const createCurrentData = (weatherData) => {
 }
 
 const getWeatherData = async (input) => {
+    if (OFFLINE) {
+        return testWeatherData;
+    }
     try {
         let geoCoords = await geo.getGeoLocationCoord(input);
         let weatherData = await getWeather(geoCoords.lat, geoCoords.lng);

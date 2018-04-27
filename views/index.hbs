@@ -25,25 +25,21 @@
                     </div>
                 </div>
 
-                <h1>
-                    Your locations weather is:
-                </h1>
+                <h1>Your locations weather is:</h1>
 
-                <p>
-                    Time: {{this.currently.time}}
+                <div id="currently">
                     {{> weather_block this.currently name="currently"}}
-                    Time daily:
+                </div>
+                <div id="hourly">
                     {{#each this.hourly}}
-                    {{> weather_block this name="hourly"}}
+                        {{> weather_block this name="hourly"}}
                     {{/each}}
-                </p>
-                <p>
-                    Week:
+                </div>
+                <div id="daily">
                     {{#each this.daily}}
                     {{> weather_block this name="daily"}}
                     {{/each}}
-                </p>
-
+                </div>
             </main>
         </div>
 

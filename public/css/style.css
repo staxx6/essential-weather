@@ -40,3 +40,7 @@ main {
     display: none;
     background-color: orange;
 }
+
+#currently {
+    border: 1px solid black;
+}
