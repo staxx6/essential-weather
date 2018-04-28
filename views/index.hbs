@@ -13,9 +13,8 @@
     <body>
         <header>
         </header>
-
-        <div id="wrapper">
-            <main>
+        <main>
+            <div id="wrapper-content">
                 <div class="outer">
                     <div id="input-field">
                         <input type="text" id="location-input" placeholder="Enter your location here" autofocus value="Dortmund">
@@ -27,23 +26,30 @@
 
                 <h1>Your locations weather is:</h1>
 
-                <div id="currently">
-                    {{> weather_block this.currently name="currently"}}
+                <div id="wrapper-weather">
+                    <section id="currently">
+                        {{> weather_block this.currently name="currently"}}
+                    </section>
+                    <div id="wrapper-future">
+                        <section id="hourly">
+                            {{#each this.hourly}}
+                                {{> weather_block this name="hourly"}}
+                            {{/each}}
+                        </section>
+                        <section id="daily">
+                            {{#each this.daily}}
+                                {{> weather_block this name="daily"}}
+                            {{/each}}
+                        </section>
+                    </div>
                 </div>
-                <div id="hourly">
-                    {{#each this.hourly}}
-                        {{> weather_block this name="hourly"}}
-                    {{/each}}
-                </div>
-                <div id="daily">
-                    {{#each this.daily}}
-                    {{> weather_block this name="daily"}}
-                    {{/each}}
-                </div>
-            </main>
-        </div>
+            </div>
+        </main>
 
         <footer>
+            <p>
+                Site created by Simon Oczadly @staxx6 <a href="">github.com</a>
+            </p>
         </footer>
         <script src="js/getWeather.js"></script>
     </body>
