@@ -32,8 +32,8 @@ const createDailyDataArray = (weatherDaily) => {
         dataDaily[i] = {
             name: `weather-daily-${i}`,
             time: new Date(weatherDaily[i].time*1000),
-            tempMax: `${Math.floor(celsius(weatherDaily[i].temperatureHigh))}°C`,
-            tempMin: `${Math.floor(celsius(weatherDaily[i].temperatureLow))}°C`,
+            tempMax: `${Math.floor(celsius(weatherDaily[i].temperatureHigh))}°`,
+            tempMin: `${Math.floor(celsius(weatherDaily[i].temperatureLow))}°`,
             icon: weatherDaily[i].icon,
             precipProbability: `${Math.floor(weatherDaily[i].precipProbability * 100)}%`
         };
@@ -64,8 +64,8 @@ const createCurrentData = (weatherData) => {
     return {
         time: new Date(),
         temp: `${Math.floor(celsius(weatherData.currently.temperature))}°C`,
-        tempMax: `${Math.floor(celsius(weatherData.daily.data[0].temperatureHigh))}°C`,
-        tempMin: `${Math.floor(celsius(weatherData.daily.data[0].temperatureLow))}°C`,
+        tempMax: `${Math.floor(celsius(weatherData.daily.data[0].temperatureHigh))}°`,
+        tempMin: `${Math.floor(celsius(weatherData.daily.data[0].temperatureLow))}°`,
         icon: weatherData.currently.icon,
         precipProbability: `${Math.floor(weatherData.hourly.data[0].precipProbability * 100)}%`
     }
@@ -83,7 +83,6 @@ const getWeatherData = async (input) => {
                 locationsName: 'Test Location in nowhere'
             };
             weatherData = testWeatherData;
-            console.log(geoCoords);
         }
         return newWeather = {
             status: 'ok',
