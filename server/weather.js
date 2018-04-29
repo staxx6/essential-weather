@@ -7,135 +7,6 @@ const geo = require('./geolocation');
 const OFFLINE = true;
 
 const testWeatherData = require('./testWeather.json');
-// Some stupid manual test data
-const testWeatherDataOld = {
-    status: 'ok',
-    currently: {
-        time: 5000,
-        timeDay: new Date(500000),
-        temp: `500°C`,
-        tempMax: `500°C`,
-        tempMin: `500°C`,
-        icon: 'testIco',
-        precipProbability: `120%`
-    },
-    hourly: [{
-        name: `weather-hour-1`,
-        time: new Date(),
-        temp: '100°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-2`,
-        time: new Date(),
-        temp: '100°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-3`,
-        time: new Date(),
-        temp: '103°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-4`,
-        time: new Date(),
-        temp: '104°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-5`,
-        time: new Date(),
-        temp: '105°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-6`,
-        time: new Date(),
-        temp: '106°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-7`,
-        time: new Date(),
-        temp: '105°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-8`,
-        time: new Date(),
-        temp: '105°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-9`,
-        time: new Date(),
-        temp: '105°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-10`,
-        time: new Date(),
-        temp: '105°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-11`,
-        time: new Date(),
-        temp: '105°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    },{
-        name: `weather-hour-12`,
-        time: new Date(),
-        temp: '105°C',
-        icon: 'explosion',
-        precipProbability: '120%'
-    }],
-    daily: [{
-        name: `weather-daily-1`,
-        time: new Date(),
-        tempMax: `201°C`,
-        tempMin: `200°C`,
-        icon: 'fuckingcold',
-        precipProbability: `130%`
-    },{
-        name: `weather-daily-2`,
-        time: new Date(),
-        tempMax: `202°C`,
-        tempMin: `200°C`,
-        icon: 'fuckingcold',
-        precipProbability: `130%`
-    },{
-        name: `weather-daily-3`,
-        time: new Date(),
-        tempMax: `203°C`,
-        tempMin: `200°C`,
-        icon: 'fuckingcold',
-        precipProbability: `130%`
-    },{
-        name: `weather-daily-4`,
-        time: new Date(),
-        tempMax: `204°C`,
-        tempMin: `200°C`,
-        icon: 'fuckingcold',
-        precipProbability: `130%`
-    },{
-        name: `weather-daily-5`,
-        time: new Date(),
-        tempMax: `205°C`,
-        tempMin: `200°C`,
-        icon: 'fuckingcold',
-        precipProbability: `130%`
-    },{
-        name: `weather-daily-6`,
-        time: new Date(),
-        tempMax: `206°C`,
-        tempMin: `200°C`,
-        icon: 'fuckingcold',
-        precipProbability: `130%`
-    },]
-};
 
 const getWeather = async (lat, lng) => {
     if (!lat || !lng) return null;
@@ -202,14 +73,22 @@ const createCurrentData = (weatherData) => {
 
 const getWeatherData = async (input) => {
     try {
+        let geoCoords;
+        let weatherData;
         if (!OFFLINE) {
-            let geoCoords = await geo.getGeoLocationCoord(input);
-            let weatherData = await getWeather(geoCoords.lat, geoCoords.lng);
+            geoCoords = await geo.getGeoLocationCoord(input);
+            weatherData = await getWeather(geoCoords.lat, geoCoords.lng);
         } else {
+            geoCoords = {
+                locationsName: 'Test Location in nowhere'
+            };
             weatherData = testWeatherData;
+            console.log(geoCoords);
         }
         return newWeather = {
             status: 'ok',
+            location: geoCoords.locationsName,
+            timeCurrent: new Date(),
             currently: createCurrentData(weatherData),
             hourly: createHourlyDataArray(weatherData.hourly.data),
             daily: createDailyDataArray(weatherData.daily.data)
