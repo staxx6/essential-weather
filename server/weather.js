@@ -6,8 +6,9 @@ const geo = require('./geolocation');
 // Test weather if not online
 const OFFLINE = true;
 
+const testWeatherData = require('./testWeather.json');
 // Some stupid manual test data
-const testWeatherData = {
+const testWeatherDataOld = {
     status: 'ok',
     currently: {
         time: 5000,
@@ -52,6 +53,42 @@ const testWeatherData = {
         name: `weather-hour-6`,
         time: new Date(),
         temp: '106°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-7`,
+        time: new Date(),
+        temp: '105°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-8`,
+        time: new Date(),
+        temp: '105°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-9`,
+        time: new Date(),
+        temp: '105°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-10`,
+        time: new Date(),
+        temp: '105°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-11`,
+        time: new Date(),
+        temp: '105°C',
+        icon: 'explosion',
+        precipProbability: '120%'
+    },{
+        name: `weather-hour-12`,
+        time: new Date(),
+        temp: '105°C',
         icon: 'explosion',
         precipProbability: '120%'
     }],
@@ -136,7 +173,10 @@ const createDailyDataArray = (weatherDaily) => {
 // Get hourly weather for 12hrs in the future (0 is current hour!)
 const createHourlyDataArray = (weatherHourly) => {
     dataHourly = [];
-    for (let i = 1; i < 13;  i++) {
+    for (let i = 1; i < 15;  i++) {
+        if(i % 2 !== 0) {
+            continue;
+        }
         dataHourly[i] = {
             name: `weather-hour-${i}`,
             time: new Date(weatherHourly[i].time*1000),
@@ -161,12 +201,13 @@ const createCurrentData = (weatherData) => {
 }
 
 const getWeatherData = async (input) => {
-    if (OFFLINE) {
-        return testWeatherData;
-    }
     try {
-        let geoCoords = await geo.getGeoLocationCoord(input);
-        let weatherData = await getWeather(geoCoords.lat, geoCoords.lng);
+        if (!OFFLINE) {
+            let geoCoords = await geo.getGeoLocationCoord(input);
+            let weatherData = await getWeather(geoCoords.lat, geoCoords.lng);
+        } else {
+            weatherData = testWeatherData;
+        }
         return newWeather = {
             status: 'ok',
             currently: createCurrentData(weatherData),
