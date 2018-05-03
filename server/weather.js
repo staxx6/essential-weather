@@ -86,7 +86,7 @@ const getWeatherData = async (input) => {
         }
         return newWeather = {
             status: 'ok',
-            location: geoCoords.locationsName,
+            locationsName: geoCoords.location,
             timeCurrent: new Date(),
             currently: createCurrentData(weatherData),
             hourly: createHourlyDataArray(weatherData.hourly.data),
