@@ -6,17 +6,17 @@ body {
     font-size: 1em;
     text-align: center;
 
-    background-color: #b3daff;
+    /* background-color: #b3daff; */
 }
 
 footer, header {
-    background-color: rgba(0, 0, 0, 0.2);
+    /* background-color: rgba(0, 0, 0, 0.2); */
     border-radius: 20px;
     /* padding: 3px; Why buggy?*/
 }
 
 #wrapper-main {
-    max-width: 960px;
+    max-width: 1024px;
     min-width: 128px;
     margin: 4% auto 0;
     padding: 1.3% 1.3%;
@@ -24,7 +24,7 @@ footer, header {
 }
 
 main {
-    background-color: #ffff99;
+    /* background-color: #ffff99; */
     border-radius: 20px;
 }
 
@@ -87,24 +87,62 @@ main {
     display: inline-block;
     flex: 1;
     text-align: center;
-    margin: 1.1em 1em;
+    font-size: 1.7rem;
+    padding: 0.6em 0.9em;
+}
+
+.icon {
+    min-height: 2.75em;
+    max-height: 3em;
+}
+
+.icon-img {
+    margin: 20% 0;
+}
+
+#weather-currently-temp-data {
+    font-size: 2em;
+}
+
+.temp-range {
+    font-size: 0.7em;
+}
+
+#weather-currently-temp-data .temp-range {
+    font-size: 10em;
+}
+
+#weather-range-separator {
+    font-size: 0.7em;
+}
+
+.precip-probability {
+    font-size: 0.7em;
+}
+
+.precip-probability img {
+    max-width: 0.8em;
 }
 
 #currently .weather-block {
     margin: auto;
 }
 
-ul {
+ul, li {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.tempMin {
+li img {
+    margin-top: 3%;
+}
+
+.temp-min {
     color: rgb(80, 80, 230);
 }
 
-.tempMax {
+.temp-max {
     color: rgb(230, 80, 80);
 }
 

@@ -4,7 +4,7 @@ const axios = require('axios');
 const geo = require('./geolocation');
 
 // Test weather if not online
-const OFFLINE = true;
+const OFFLINE = false;
 
 const testWeatherData = require('./testWeather.json');
 
@@ -25,6 +25,10 @@ const getWeather = async (lat, lng) => {
 // TODO: functions for solo data ex. tempCurrent() = { ... }
 // TODO: functions implement F° anc C° change --> client can do that
 
+const createWeatherIcon = (iconName) => {
+    return `<img alt="${iconName} icon" src="..\\img\\${iconName}.svg" class="icon-img"></img>`;
+}
+
 // Get daily weather for next 7 days (0 is current day!)
 const createDailyDataArray = (weatherDaily) => {
     dataDaily = [];
@@ -34,7 +38,7 @@ const createDailyDataArray = (weatherDaily) => {
             time: new Date(weatherDaily[i].time*1000),
             tempMax: `${Math.floor(celsius(weatherDaily[i].temperatureHigh))}°`,
             tempMin: `${Math.floor(celsius(weatherDaily[i].temperatureLow))}°`,
-            icon: weatherDaily[i].icon,
+            icon: createWeatherIcon(weatherDaily[i].icon),
             precipProbability: `${Math.floor(weatherDaily[i].precipProbability * 100)}%`
         };
     }
@@ -52,7 +56,7 @@ const createHourlyDataArray = (weatherHourly) => {
             name: `weather-hour-${i}`,
             time: new Date(weatherHourly[i].time*1000),
             temp: `${Math.floor(celsius(weatherHourly[i].temperature))}°C`,
-            icon: weatherHourly[i].icon,
+            icon: createWeatherIcon(weatherHourly[i].icon),
             precipProbability: `${Math.floor(weatherHourly[i].precipProbability * 100)}%`
         };
     }
@@ -66,7 +70,7 @@ const createCurrentData = (weatherData) => {
         temp: `${Math.floor(celsius(weatherData.currently.temperature))}°C`,
         tempMax: `${Math.floor(celsius(weatherData.daily.data[0].temperatureHigh))}°`,
         tempMin: `${Math.floor(celsius(weatherData.daily.data[0].temperatureLow))}°`,
-        icon: weatherData.currently.icon,
+        icon: createWeatherIcon(weatherData.currently.icon),
         precipProbability: `${Math.floor(weatherData.hourly.data[0].precipProbability * 100)}%`
     }
 }

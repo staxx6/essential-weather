@@ -1,18 +1,28 @@
 <div class="weather-block">
     <ul>
         {{#if this.temp}}
-            <li><span id="weather-{{name}}-temp-data" class="tempCurrent">{{this.temp}}</span></li>
-            <li><span id="weather-{{name}}-icon-data" class="icon">{{this.icon}}</span></li>
+            <li><span id="weather-{{name}}-temp-data" class="temp temp-current">{{this.temp}}</span></li>
+            {{!--<li><span id="weather-{{name}}-icon-data" class="icon">{{{this.icon}}}</span></li>--}}
+            <li><div class="icon">{{{this.icon}}}</div></li>
         {{/if}}
         {{#if this.tempMax}}
             <li>
-                <span id="weather-{{name}}-tempMin-data" class="tempMax">{{this.tempMin}}</span> /
-                <span id="weather-{{name}}-tempMax-data" class="tempMin">{{this.tempMax}}</span>
+                <span id="weather-{{name}}-tempMin-data" class="temp temp-range temp-min">{{this.tempMin}}</span>
+                {{#if this.temp}}
+                    <span id="weather-range-separator">/</span>
+                {{/if}}
+                <span id="weather-{{name}}-tempMax-data" class="temp temp-range temp-max">{{this.tempMax}}</span>
             </li>
             {{#unless this.temp}}
-                <li><span id="weather-{{name}}-icon-data" class="icon">{{this.icon}}</span></li>
+                {{!--<li><span id="weather-{{name}}-icon-data" class="icon">{{{this.icon}}}</span></li>--}}
+                <li><div class="icon">{{{this.icon}}}</div></li>
             {{/unless}}
         {{/if}}
-        <li>R: <span id="weather-{{name}}-precipProbability-data" class="precipProbability">{{this.precipProbability}}</span></li>
+        <li>
+            <span id="weather-{{name}}-precip-probability-data" class="precip-probability">
+                <img alt="precip probability" class="precip-probability" src="..\img\precip-probability.svg"></img>
+                {{this.precipProbability}}
+            </span>
+        </li>
     </ul>
 </div>
