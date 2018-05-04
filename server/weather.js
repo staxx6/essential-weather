@@ -2,6 +2,7 @@ require('./config/config');
 
 const axios = require('axios');
 const geo = require('./geolocation');
+const moment = require('moment');
 
 // Test weather if not online
 const OFFLINE = false;
@@ -22,9 +23,9 @@ const getWeather = async (lat, lng) => {
     }
 }
 
-// TODO: functions for solo data ex. tempCurrent() = { ... }
 // TODO: functions implement F° anc C° change --> client can do that
 
+// TODO: Need the escape?
 const createWeatherIcon = (iconName) => {
     return `<img alt="${iconName} icon" src="..\\img\\${iconName}.svg" class="icon-img"></img>`;
 }
@@ -35,7 +36,7 @@ const createDailyDataArray = (weatherDaily) => {
     for (let i = 1; i < 8;  i++) {
         dataDaily[i] = {
             name: `weather-daily-${i}`,
-            time: new Date(weatherDaily[i].time*1000),
+            time: moment(weatherDaily[i].time*1000).format('ddd'),
             tempMax: `${Math.floor(celsius(weatherDaily[i].temperatureHigh))}°`,
             tempMin: `${Math.floor(celsius(weatherDaily[i].temperatureLow))}°`,
             icon: createWeatherIcon(weatherDaily[i].icon),
@@ -54,7 +55,7 @@ const createHourlyDataArray = (weatherHourly) => {
         }
         dataHourly[i] = {
             name: `weather-hour-${i}`,
-            time: new Date(weatherHourly[i].time*1000),
+            time: moment(weatherHourly[i].time*1000).format('hh:00'),
             temp: `${Math.floor(celsius(weatherHourly[i].temperature))}°C`,
             icon: createWeatherIcon(weatherHourly[i].icon),
             precipProbability: `${Math.floor(weatherHourly[i].precipProbability * 100)}%`
@@ -66,7 +67,6 @@ const createHourlyDataArray = (weatherHourly) => {
 // Get current weather
 const createCurrentData = (weatherData) => {
     return {
-        time: new Date(),
         temp: `${Math.floor(celsius(weatherData.currently.temperature))}°C`,
         tempMax: `${Math.floor(celsius(weatherData.daily.data[0].temperatureHigh))}°`,
         tempMin: `${Math.floor(celsius(weatherData.daily.data[0].temperatureLow))}°`,
@@ -91,7 +91,8 @@ const getWeatherData = async (input) => {
         return newWeather = {
             status: 'ok',
             locationsName: geoCoords.location,
-            timeCurrent: new Date(),
+            timeCurrentDate: moment().format('dddd MMM YYYY'),
+            timeCurrentTime: moment().format('hh:mm'),
             currently: createCurrentData(weatherData),
             hourly: createHourlyDataArray(weatherData.hourly.data),
             daily: createDailyDataArray(weatherData.daily.data)
