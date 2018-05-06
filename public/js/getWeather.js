@@ -6,6 +6,10 @@ let renderNewWeather = (data) => {
     document.getElementById("weather-currently-precipProbability-data").innerHTML = data.currently.precipProbability;
 };
 
+let browserLoc = () => {
+    
+};
+
 let testWeather = () => {
     renderNewWeather({
         status: 'ok',

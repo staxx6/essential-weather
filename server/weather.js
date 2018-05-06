@@ -5,7 +5,7 @@ const geo = require('./geolocation');
 const moment = require('moment');
 
 // Test weather if not online
-const OFFLINE = false;
+const OFFLINE = true;
 
 const testWeatherData = require('./testWeather.json');
 
@@ -55,7 +55,7 @@ const createHourlyDataArray = (weatherHourly) => {
         }
         dataHourly[i] = {
             name: `weather-hour-${i}`,
-            time: moment(weatherHourly[i].time*1000).format('hh:00'),
+            time: moment(weatherHourly[i].time*1000).format('HH:00'),
             temp: `${Math.floor(celsius(weatherHourly[i].temperature))}°C`,
             icon: createWeatherIcon(weatherHourly[i].icon),
             precipProbability: `${Math.floor(weatherHourly[i].precipProbability * 100)}%`
@@ -92,7 +92,7 @@ const getWeatherData = async (input) => {
             status: 'ok',
             locationsName: geoCoords.location,
             timeCurrentDate: moment().format('dddd MMM YYYY'),
-            timeCurrentTime: moment().format('hh:mm'),
+            timeCurrentTime: moment().format('HH:mm'),
             currently: createCurrentData(weatherData),
             hourly: createHourlyDataArray(weatherData.hourly.data),
             daily: createDailyDataArray(weatherData.daily.data)

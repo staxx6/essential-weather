@@ -38,7 +38,7 @@ main {
     display: inline-block;
 }
 
-#fetchAnimation {
+#fetch-animation {
     top: 50%;
     transform: translateY(50%);
 
@@ -96,8 +96,12 @@ main {
 }
 
 .icon {
-    min-height: 2.75em;
-    max-height: 3em;
+    height: 3.6em;
+    /* max-height: 4em; */
+}
+
+#currently li img {
+    margin: 0 auto;
 }
 
 .icon-img {
