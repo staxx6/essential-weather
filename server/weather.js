@@ -5,7 +5,7 @@ const geo = require('./geolocation');
 const moment = require('moment');
 
 // Test weather if not online
-const OFFLINE = true;
+const OFFLINE = false;
 
 const testWeatherData = require('./testWeather.json');
 
@@ -25,10 +25,10 @@ const getWeather = async (lat, lng) => {
 
 // TODO: functions implement F° anc C° change --> client can do that
 
-// TODO: Need the escape?
-const createWeatherIcon = (iconName) => {
-    return `<img alt="${iconName} icon" src="..\\img\\${iconName}.svg" class="icon-img"></img>`;
-}
+// // TODO: Need the escape?
+// const createWeatherIcon = (iconName, idname) => {
+//     return `<img id="${idname}" alt="${iconName} icon" src="..\\img\\${iconName}.svg" class="icon-img"></img>`;
+// }
 
 // Get daily weather for next 7 days (0 is current day!)
 const createDailyDataArray = (weatherDaily) => {
@@ -39,7 +39,7 @@ const createDailyDataArray = (weatherDaily) => {
             time: moment(weatherDaily[i].time*1000).format('ddd'),
             tempMax: `${Math.floor(celsius(weatherDaily[i].temperatureHigh))}°`,
             tempMin: `${Math.floor(celsius(weatherDaily[i].temperatureLow))}°`,
-            icon: createWeatherIcon(weatherDaily[i].icon),
+            iconName: weatherDaily[i].icon,
             precipProbability: `${Math.floor(weatherDaily[i].precipProbability * 100)}%`
         };
     }
@@ -57,7 +57,7 @@ const createHourlyDataArray = (weatherHourly) => {
             name: `weather-hour-${i}`,
             time: moment(weatherHourly[i].time*1000).format('HH:00'),
             temp: `${Math.floor(celsius(weatherHourly[i].temperature))}°C`,
-            icon: createWeatherIcon(weatherHourly[i].icon),
+            iconName: weatherHourly[i].icon,
             precipProbability: `${Math.floor(weatherHourly[i].precipProbability * 100)}%`
         };
     }
@@ -70,7 +70,8 @@ const createCurrentData = (weatherData) => {
         temp: `${Math.floor(celsius(weatherData.currently.temperature))}°C`,
         tempMax: `${Math.floor(celsius(weatherData.daily.data[0].temperatureHigh))}°`,
         tempMin: `${Math.floor(celsius(weatherData.daily.data[0].temperatureLow))}°`,
-        icon: createWeatherIcon(weatherData.currently.icon),
+        iconName: weatherData.currently.icon,
+        iconIdName: 'weather-currently-icon-data',
         precipProbability: `${Math.floor(weatherData.hourly.data[0].precipProbability * 100)}%`
     }
 }

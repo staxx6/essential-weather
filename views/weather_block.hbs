@@ -5,18 +5,31 @@
         {{/if}}
         {{#if this.temp}}
             {{#if this.time}}
-                <li><div class="icon">{{{this.icon}}}</div></li>
+                <li>
+                    <div class="icon">
+                        <img id="{{this.iconIdName}}" alt="{{iconName}}
+                        icon" src="..\\img\\{{iconName}}.svg" class="icon-img"></img>
+                    </div>
+                </li>
             {{/if}}
             <li><span id="weather-{{name}}-temp-data" class="temp temp-current">{{this.temp}}</span></li>
             {{#unless this.time}}
-                <li><div class="icon">{{{this.icon}}}</div></li>
+            <li>
+                <div class="icon">
+                    <img id="{{this.iconIdName}}" alt="{{iconName}}
+                    icon" src="..\\img\\{{iconName}}.svg" class="icon-img"></img>
+                </div>
+            </li>
             {{/unless}}
             {{!--<li><span id="weather-{{name}}-icon-data" class="icon">{{{this.icon}}}</span></li>--}}
         {{/if}}
         {{#if this.tempMax}}
             {{#unless this.temp}}
                 {{!--<li><span id="weather-{{name}}-icon-data" class="icon">{{{this.icon}}}</span></li>--}}
-                <li><div class="icon">{{{this.icon}}}</div></li>
+                <div class="icon">
+                    <img id="{{this.iconIdName}}" alt="{{iconName}}
+                    icon" src="..\\img\\{{iconName}}.svg" class="icon-img"></img>
+                </div>
             {{/unless}}
             <li>
                 <span id="weather-{{name}}-tempMin-data" class="temp temp-range temp-min">{{this.tempMin}}</span>
